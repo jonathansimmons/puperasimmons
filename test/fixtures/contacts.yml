@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 1
+  transaction_type: 1
+  status: 1
+  name: MyString
+  email: MyString
+  phone: MyString
+  company: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  postal_code: MyString
+  service: MyString
+  loop_id: MyString
+
+two:
+  type: 1
+  transaction_type: 1
+  status: 1
+  name: MyString
+  email: MyString
+  phone: MyString
+  company: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  postal_code: MyString
+  service: MyString
+  loop_id: MyString

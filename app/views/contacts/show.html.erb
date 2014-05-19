@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @contact.type %>
+</p>
+
+<p>
+  <strong>Transaction type:</strong>
+  <%= @contact.transaction_type %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @contact.status %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @contact.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @contact.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @contact.phone %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @contact.company %>
+</p>
+
+<p>
+  <strong>Street:</strong>
+  <%= @contact.street %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @contact.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @contact.state %>
+</p>
+
+<p>
+  <strong>Postal code:</strong>
+  <%= @contact.postal_code %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @contact.service %>
+</p>
+
+<p>
+  <strong>Loop:</strong>
+  <%= @contact.loop_id %>
+</p>
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>

@@ -1,0 +1,41 @@
+#activities {
+	ul.activities {
+		padding: 15px;
+		.activity {
+			list-style:none;
+			position: relative;
+			z-index:1;
+			margin-bottom:15px;
+			.time {
+				color:#999;
+				display:block;
+				text-indent:15px;
+				&:after {
+					display: block;
+					border: 1px solid #dedede;
+					background: #fff;
+					width: 10px;
+					height: 10px;
+					content: " ";
+					position: absolute;
+					top: 6px;
+					border-radius: 5px;
+				}
+			}
+			.content {
+				margin-left:20px;
+			}
+			a {
+				color:#e5575c;
+				text-decoration: none;
+			}
+		}
+		&:after {
+			display: block;
+			border-left: 1px solid #dedede;
+			content: " ";
+			position: absolute;
+			border-radius: 5px;
+		}
+	}
+}

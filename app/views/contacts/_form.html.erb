@@ -1,0 +1,107 @@
+<%= form_for @contact, remote: true do |f| %>
+  <%= link_to "#", class: "round-btn cancel-edit" do %>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  <% end %>
+  <% if @contact.new_record? %>
+    <h2>New Contact</h2>
+  <% else %>
+    <h2>
+      <% if @contact.name.length > 10 %>
+        <%= @contact.name.split[0] %><br> <%= @contact.name.split[1] %>
+      <% else %>
+        <%= @contact.name %>
+      <% end %>
+    </h2>
+  <% end %>
+
+
+  <% if @contact.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+
+      <ul>
+      <% @contact.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :contact_type,  class: "select" do %>
+      <span class="name">Type</span>
+      <%= f.select :contact_type, options_for_select([["Agent", "agent"], ["Client", "client"], ["Lender", "lender"], ["Vendor", "vendor"]], @contact.contact_type)%>
+    <% end %>
+  </div>
+
+  <div class="vendor-fields <%= @contact.contact_type == "vendor" ? nil : "hide" %>">
+    <div class="field">
+      <%= f.label :company, "Company Name" %>
+      <%= f.text_field :company %>
+    </div>
+    <div class="field">
+      <%= f.label :service, "Service Provided" %>
+      <%= f.text_field :service %>
+    </div>
+    <hr>
+  </div>
+
+  <div class="client-fields <%= @contact.contact_type == "client" ? nil : "hide" %>">
+    <div class="field">
+      <%= f.label :transaction_type, class: "select" do %>
+        <span class="name">Transaction Type</span>
+        <%= f.select :transaction_type, options_for_select([["Sale", "sale"], ["Purchase", "purchase"], ["Lease", "lease"],["Sale & Purchase", "sale_and_purchase"],["Sale & Lease", "sale_and_lease"]], @contact.transaction_type)%>
+      <% end %>
+    </div>
+    <div class="field">
+      <%= f.label :status, class: "control checkbox" do %>
+        <span class="name">Active Client</span>
+        <%= f.check_box :status, class: "checkbox" %>
+        <span class="control-indicator"></span>
+        <span class="control-text">Is this an active client?</span>
+      <% end %>
+    </div>
+    <div class="field">
+      <%= f.label :dot_loop_id, "DotLoop ID" %>
+      <%= f.text_field :dot_loop_id %>
+    </div>
+    <hr>
+  </div>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :street %>
+    <%= f.text_field :street %>
+  </div>
+  <div class="field">
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :state %>
+    <%= f.text_field :state %>
+  </div>
+  <div class="field">
+    <%= f.label :postal_code %>
+    <%= f.text_field :postal_code %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
+  </div>
+  <%= hidden_field_tag :group, params[:group] %>
+  <div class="actions">
+    <%= f.submit class: 'btn btn-default btn-block' %>
+  </div>
+  <% end %>

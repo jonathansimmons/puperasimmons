@@ -1,0 +1,10 @@
+<li class="activity">
+  <%= render "public_activity/time", activity: activity %>
+  <div class="content">
+    <% if activity.trackable %>
+      <%= activity.owner.name %> created <%= link_to activity.trackable.name, activity.trackable %>.
+    <% else %>
+      <%= activity.owner.name %> created a contact which has since been removed.
+    <% end %>
+  </div>
+</li>

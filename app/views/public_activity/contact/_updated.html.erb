@@ -1,0 +1,10 @@
+<li class="activity">
+  <%= render "public_activity/time", activity: activity %>
+  <div class="content">
+    <% if activity.trackable %>
+      <%= activity.owner.name %> updated <%= link_to activity.trackable.name.possessive, activity.trackable %> contact <%= activity.parameters[:changes].collect{|c| c.first.gsub("_", " ") unless c.in?([:updated_at])}.to_sentence if activity.parameters[:changes] %>.
+    <% else %>
+      <%= activity.owner.name %> updated a contact which has since been removed.
+    <% end %>
+  </div>
+</li>

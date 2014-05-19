@@ -1,0 +1,4 @@
+<h3>Latest Activity</h3>
+<ul class="activities">
+	<%= render_activities(PublicActivity::Activity.all.order("created_at desc")) %>
+</ul>

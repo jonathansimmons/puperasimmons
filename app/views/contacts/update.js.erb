@@ -1,0 +1,7 @@
+$('#right_sidebar, body').removeClass('editing-contact');
+$('#contact_form').html(" ");
+$('#activities').html("<%= j render 'public_activity/activity_list' %>")
+$('li[data-contact-id="<%= @contact.uid %>"] .name').text('<%= @contact.name %>')
+$('li[data-contact-id="<%= @contact.uid %>"] .details').text('<%= @contact.transaction_type.gsub("_", " ").titleize %>')
+$('li[data-contact-id="<%= @contact.uid %>"] .email').text('<%= @contact.email %>')
+$('li[data-contact-id="<%= @contact.uid %>"] .phone').text('<%= @contact.phone %>')

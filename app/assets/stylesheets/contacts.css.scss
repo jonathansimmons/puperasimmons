@@ -1,0 +1,230 @@
+// Place all the styles related to the contacts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#contacts {
+	margin:0;
+	padding:0;
+	list-style:none;
+	li.contact {
+		height: 70px;
+		padding: 10px 25px;
+		border-left: 5px solid transparent;
+		border-bottom: 1px solid #dedede;
+		transition:all 500ms linear;
+		overflow:hidden;
+		a {
+			color:#333;
+			text-decoration:none;
+		}
+		&.active{
+			border-color:#e5575c;
+			background:#f9f9f9;
+		}
+		span {
+			display:block;
+			&.info {
+				text-align:right;
+				color:#999;
+			}
+		}
+		.name {
+			font-size:20px;
+		}
+		.details {
+			font-size:14px;
+			color:#999;
+		}
+		.glyphicon-pencil {
+			color: #e5575c;
+		}
+		#details {
+			opacity:0;
+			min-height:0;
+			transition:all 500ms linear;
+
+			h4 {
+				color:#e5575c;
+				padding-bottom:10px;
+				border-bottom:1px solid #e5575c;
+			}
+			#comments {
+				padding:0;
+				max-height:250px;
+				overflow-y:scroll;
+				overflow-x:hidden;
+				list-style:none;
+				.comment {
+					margin-bottom:15px;
+					.time {
+						color:#999;
+					}
+					.comment-body {
+						background: #fff;
+						border: 1px solid #dedede;
+						border-radius: 3px;
+						padding: 5px 10px;
+						margin-top:10px;
+					}
+					.comment-body {
+						position: relative;
+						background: #fff;
+						border: 1px solid #dedede;
+					}
+					.comment-body:after, .comment-body:before {
+						bottom: 100%;
+						left: 50%;
+						border: solid transparent;
+						content: " ";
+						height: 0;
+						width: 0;
+						position: absolute;
+						pointer-events: none;
+					}
+
+					.comment-body:after {
+						border-color: rgba(255, 255, 255, 0);
+						border-bottom-color: #fff;
+						border-width: 7px;
+						margin-left: -47%;
+					}
+					.comment-body:before {
+						border-color: rgba(222, 222, 222, 0);
+						border-bottom-color: #dedede;
+						border-width: 9px;
+						margin-left: -47.5%;
+					}
+					&:nth-child(even) {
+						.time {
+							text-align:right;
+						}
+						.comment-body:after {
+							margin-left: 43%;
+						}
+						.comment-body:before {
+							margin-left: 42.5%;
+						}
+					}
+				}
+				#new_comment {
+					textarea {
+						border-radius: 3px;
+						border: 1px solid #dedede;
+						background: #fff;
+						height: 75px;
+						width: 100%;
+						padding: 10px;
+						&:focus {
+							outline:0;
+						}
+					}
+				}
+			}
+
+		}
+		&.open {
+			height:500px;
+			min-height:500px;
+			#details {
+			opacity:1;
+			}
+		}
+	}
+}
+
+
+#contact_form {
+	padding:15px;
+	h2 {
+		color:#e5575c;
+		text-align:right;
+	}
+	label, .name {
+		cursor:pointer;
+		display:block;
+		color: #e5575c;
+		border-bottom: 1px solid #e5575c;
+		width: 100%;
+	}
+	input[type="text"] {
+		border:0;
+		background: none;
+		margin-bottom: 10px;
+		cursor: text;
+		font-size: 16px;
+		width:100%;
+		&.contact-name {
+			color: #e5575c;
+			text-align: right;
+			font-size:30px;
+			::-webkit-input-placeholder { color: #e5575c; }
+			:-moz-placeholder { color: #e5575c; }
+			::-moz-placeholder { color: #e5575c; }
+			:-ms-input-placeholder { color: #e5575c;	}
+		}
+		&:focus {
+			outline:0;
+		}
+	}
+	textarea {
+		background: none;
+		width: 100%;
+		border: 0;
+		height: 75px;
+		&:focus {
+			outline:0;
+		}
+	}
+	.select {
+		border-bottom:0;
+		position:relative;
+		&:after {
+			position: absolute;
+			top: 62%;
+			right: 1.25rem;
+			display: inline-block;
+			content: "";
+			width: 0;
+			height: 0;
+			margin-top: -.15rem;
+			pointer-events: none;
+			border-top: 0.6rem solid #dedede;
+			border-right: .6rem solid transparent;
+			border-bottom: .6rem solid transparent;
+			border-left: .6rem solid transparent;
+		}
+		&:hover {
+			&:after {
+				border-top-color:#999;
+			}
+		}
+	}
+	.checkbox {
+		border-bottom:none;
+		padding-left:0;
+		.control-text {
+			display: block;
+			margin: 10px 15px 10px 25px;
+			cursor:default;
+		}
+	}
+	select {
+		display: inline-block;
+		margin: 0;
+		padding: .5rem 0;
+		line-height: 1.5;
+		color: #555;
+		border: 0;
+		border-radius: .25rem;
+		cursor: pointer;
+		outline: 0;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		width: 100%;
+		background: none;
+		font-size: 16px;
+		font-weight: normal;
+	}
+}

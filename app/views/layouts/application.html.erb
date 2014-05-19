@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RealEstate</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui=true"> -->
+</head>
+<body>
+	<sidebar id="left_sidebar">
+		<%= image_tag asset_path("logo.png"), class: "logo" %>
+		<span class="divider"></span>
+		<span class="link"><%= active_link_to "Dashboard", root_path, active: :exclusive %></span>
+		<span class="divider"></span>
+		<span class="link"><%= active_link_to "Contacts", contacts_path %></span>
+		<span class="divider"></span>
+	</sidebar>
+
+	<section id="content" class="page">
+		<div class="page-header">
+			<div class="container-fluid">
+				<h2><%= yield(:title) %></h2>
+				<div class="page-actions">
+					<% if controller_name == "contacts" && action_name == "index" %>
+						<%= link_to new_contact_path(group: params[:group]), class: "round-btn add-contact pull-right", remote: true do %>
+	              <span class="glyphicon glyphicon-plus"></span>
+						<% end %>
+					<% end %>
+					<%= form_tag contacts_path, method: :get do %>
+						<input type="text" name="search" placeholder="SEARCH CONTACTS">
+					  <%= hidden_field_tag :group, params[:group] %>
+					<% end %>
+				</div>
+				<% if controller_name == "contacts" && action_name == "index" %>
+					<ul class="nav nav-pills">
+					  <li class="<%= !params[:group].present? ? "active" : nil %>"><%= link_to "All", contacts_path() %></li>
+					  <li class="<%= params[:group] == "agents" ? "active" : nil %>"><%= link_to "Agents", contacts_path(group: "agents") %></li>
+					  <li class="<%= params[:group] == "clients" ? "active" : nil %>"><%= link_to "Clients", contacts_path(group: "clients") %></li>
+					  <li class="<%= params[:group] == "lenders" ? "active" : nil %>"><%= link_to "Lenders", contacts_path(group: "lenders") %></li>
+					  <li class="<%= params[:group] == "vendors" ? "active" : nil %>"><%= link_to "Vendors", contacts_path(group: "vendors") %></li>
+					</ul>
+				<% end %>
+			</div>
+		</div>
+		<div class="page-content <%= "#{action_name} #{controller_name}" %>">
+			<div class="container-fluid">
+				<%= yield %>
+			</div>
+		</div>
+	</section>
+
+	<sidebar id="right_sidebar" class="open">
+		<div id="activities">
+			<%= render "public_activity/activity_list" %>
+		</div>
+		<div id="contact_form"></div>
+	</sidebar>
+
+</body>
+</html>

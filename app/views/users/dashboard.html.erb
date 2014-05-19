@@ -1,0 +1,7 @@
+<% title "Dashboard" %>
+
+<ul id="contacts">
+	<% @contacts.each do |contact| %>
+		<%= render "contacts/dashboard_contact", contact: contact %>
+	<% end %>
+</ul>

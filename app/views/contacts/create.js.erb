@@ -1,0 +1,4 @@
+$('#right_sidebar, body').html(" ").removeClass('editing-contact');
+<% if @group.singularize == @contact.contact_type %>
+	$('ul.contacts').html("<%= j render Contact.where(contact_type: @contact[:contact_type]) %>")
+<% end %>
