@@ -17,7 +17,7 @@ $gray:                   lighten(#000, 33.5%) !default; // #555
 $gray-light:             lighten(#000, 60%) !default;   // #999
 $gray-lighter:           lighten(#000, 93.5%) !default; // #eee
 
-$brand-primary:         #428bca !default;
+$brand-primary:         #e5575c !default;
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
@@ -86,15 +86,23 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 
 $padding-base-vertical:     6px !default;
 $padding-base-horizontal:   12px !default;
+$padding-base-vertical-round:    12px !default;
+$padding-base-horizontal-round:  12px !default;
 
 $padding-large-vertical:    10px !default;
 $padding-large-horizontal:  16px !default;
+$padding-large-vertical-round:    16px !default;
+$padding-large-horizontal-round:  16px !default;
 
 $padding-small-vertical:    5px !default;
 $padding-small-horizontal:  10px !default;
+$padding-small-vertical-round:    10px !default;
+$padding-small-horizontal-round:  10px !default;
 
 $padding-xs-vertical:       1px !default;
 $padding-xs-horizontal:     5px !default;
+$padding-xs-vertical-round:    6px !default;
+$padding-xs-horizontal-round:  6px !default;
 
 $line-height-large:         1.33 !default;
 $line-height-small:         1.5 !default;
@@ -562,7 +570,7 @@ $label-link-hover-color:      #fff !default;
 //##
 
 //** Padding applied to the modal body
-$modal-inner-padding:         20px !default;
+$modal-inner-padding:         0px !default;
 
 //** Padding applied to the modal title
 $modal-title-padding:         15px !default;

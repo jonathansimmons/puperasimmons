@@ -3,8 +3,47 @@ class UsersController < ApplicationController
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :find_activity, only: :read_activity
+
   def dashboard
   	@contacts = Contact.where(status: true)
   	@comment = Comment.new
+
+  	if params[:assigned_to].present?
+  		@tasks = User.find_by(name: params[:assigned_to]).tasks
+  	else
+	  	@tasks = Task.all
+	  end
+
+  	if params[:sort_by] == "due_date"
+	  	@task_groups = @tasks.group_by{ |t| t.due_date.present? ? t.due_date.strftime("%m.%d.%y") : "Unassigned" }
+  	else
+  		@task_groups = @tasks.group_by{ |t| t.contact_id.present? ? t.contact.name : "Unassigned" }
+  	end
+  end
+
+  def read_activity
+		@activity.mark_as_read! :for => current_user
+		logger.debug @activity.trackable.class.name
+		if @activity.trackable
+			case @activity.trackable.class.name
+			when "Contact"
+				redirect_to contact_path(@activity.trackable)
+			when "Task"
+				redirect_to @activity.trackable.contact.present? ? @activity.trackable.contact : root_url
+			when "Comment"
+				redirect_to @activity.trackable.commentable
+			end
+		else
+			redirect_to root_path
+		end
+  end
+
+  def read_all
+  	Activity.mark_as_read! :all, for: current_user
+  end
+
+  def find_activity
+  	@activity = Activity.find_by(uid: params[:uid])
   end
 end

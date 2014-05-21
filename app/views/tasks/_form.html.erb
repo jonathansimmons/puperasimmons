@@ -1,0 +1,81 @@
+<%= form_for @task, url: @task.new_record? ? tasks_path(return_url: request.referrer) : task_path( @task, return_url: request.referrer)  do |f| %>
+  <%= link_to "#", class: "btn btn-default btn-sm-round cancel-edit" do %>
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  <% end %>
+<% if @task.new_record? %>
+    <h2>New Task</h2>
+<% else %>
+    <h2>Edit Task</h2>
+<% end %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :content, "Details" %>
+    <%= f.text_area :content %>
+  </div>
+  <% unless @task.new_record? %>
+    <div class="field">
+      <%= f.label :completed, class: "control checkbox", for: nil do %>
+        <span class="name">Completed</span>
+        <%= f.check_box :completed, class: "checkbox" %>
+        <span class="control-indicator"></span>
+        <span class="control-text">&nbsp;</span>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :due_date, class: "select" do %>
+      <span class="name">Due Date</span>
+      <div class="bfh-datepicker"></div>
+      <span class="<%= @task.due_date.present? ? 'clear-date glyphicon glyphicon-remove' : 'hide clear-date glyphicon glyphicon-remove' %>"></span>
+    <% end %>
+    <script>
+     $(document).ready(function(){
+        $(document).on('change.bfhdatepicker', '.bfh-datepicker', function(){
+          if ($(this).val() != "") {
+            $('.clear-date').removeClass('hide');
+          }
+        })
+        $(document).on('click', '.clear-date', function(){
+          $('.bfh-datepicker').val('');
+          $('.clear-date').addClass('hide');
+        });
+     });
+    </script>
+  </div>
+  <div class="field">
+    <%= f.label :contact_id, class: "select" do %>
+      <span class="name">Contact</span>
+      <%= f.select :contact_id, options_from_collection_for_select(Contact.all.order(:name), :id, :name, @task.contact_id), class: 'select', include_blank: true %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id, class: "select" do %>
+      <span class="name">Assignee</span>
+      <%= f.select :user_id, options_from_collection_for_select(User.all.order(:name), :id, :name, @task.user_id), class: 'select', include_blank: true %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <div class="row">
+      <div class="col-md-6">
+        <%= link_to "#", class: "btn btn-default btn-block cancel-edit" do %>
+          Cancel
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= f.submit class: 'btn btn-default-inverted btn-block' %>
+      </div>
+    </div>
+  </div>
+<% end %>

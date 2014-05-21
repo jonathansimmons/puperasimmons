@@ -1,0 +1,4 @@
+$("#edit_comment_<%= @comment.id %> textarea").css({'height': $("li[data-comment-id='<%= @comment.id %>'] .comment-body").css('height')});
+$("#edit_comment_<%= @comment.id %>").removeClass('hide');
+$("#edit_comment_<%= @comment.id %> textarea").focus();
+$('#comments ul').addClass('editing');

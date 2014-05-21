@@ -91,7 +91,6 @@
   font-weight: normal;
   cursor: pointer;
   border-radius: 0;
-
   &,
   &:active,
   &[disabled],
@@ -136,6 +135,20 @@
 .btn-xs {
   @include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $border-radius-small);
 }
+
+.btn-lg-round {
+  @include button-size($padding-large-vertical-round, $padding-large-horizontal-round, $font-size-large, 0.63, 50%);
+}
+.btn-round {
+  @include button-size($padding-base-vertical-round, $padding-base-horizontal-round, 14px, 1, 50%);
+}
+.btn-sm-round {
+  @include button-size($padding-small-vertical-round, $padding-small-horizontal-round, $font-size-small, 1, 50%);
+}
+.btn-xs-round {
+  @include button-size($padding-xs-vertical-round, $padding-xs-horizontal-round, $font-size-small, 1, 50%);
+}
+
 
 
 // Block button

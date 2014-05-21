@@ -1,0 +1,36 @@
+<li class="task <%= task.completed ? 'completed' : nil %>" data-task-id="<%= task.uid %>">
+	<%= form_for task, html: {class: "complete-form" }, remote: true do |f| %>
+		<%= f.label :completed, class: "control checkbox", for: nil do %>
+			<%= f.check_box :completed %>
+			<%= hidden_field_tag :quick_complete, value: true%>
+			<span class="control-indicator"></span>
+    <% end %>
+  <% end %>
+	<span class="content"><%= simple_format(task.content) %></span>
+	<span class="meta"><%= link_to view_comments_task_path(task), class: "", remote: true do %>  <%= task.comments.count %> &nbsp; <span class="glyphicon glyphicon-comment"> </span> <% end %> &nbsp; <%= link_to edit_task_path(task), remote: true do %> <span class="glyphicon glyphicon-pencil"></span> <% end %> &nbsp; <%= link_to task_path(task),method: :delete, remote: true do  %> <span class="glyphicon glyphicon-trash"></span> <% end %></span>
+	<div id="comments" class="hide">
+		<hr>
+		<ul>
+      <% task.comments.each do |comment| %>
+        <li class="comment <%= comment.user == current_user ? 'me' : nil %>" data-comment-id="<%= comment.id %>">
+          <span class="comment-body"><%= comment.comment %></span>
+          <div class="meta">
+            <span class="options">
+              <%= link_to "edit", edit_comment_path(comment), remote: true %> | <%= link_to "delete", comment_path(comment), method: :delete, remote: true %>
+            </span>
+            <span class="time" title="<%= comment.created_at.strftime('%e %b, %Y - %I:%M %p') %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <%= form_for @comment, remote: true do |f| %>
+      <% if task.comments.any? %>
+        <hr>
+      <% end %>
+      <%= f.text_area :comment, placeholder: "add comment...", class: "comment-box " %>
+      <%= f.hidden_field :task_id, value: task.uid %>
+      <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
+    <% end %>
+    <hr>
+	</div>
+</li>

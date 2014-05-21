@@ -1,9 +1,9 @@
 <%= form_for @contact, remote: true do |f| %>
-  <%= link_to "#", class: "round-btn cancel-edit" do %>
+  <%= link_to "#", class: "btn btn-default btn-sm-round cancel-edit" do %>
     <span class="glyphicon glyphicon-chevron-left"></span>
   <% end %>
   <% if @contact.new_record? %>
-    <h2>New Contact</h2>
+    <h2>New<br><%= params[:group] == "client" ? "Client" : "Contact" %></h2>
   <% else %>
     <h2>
       <% if @contact.name.length > 10 %>
@@ -14,7 +14,7 @@
     </h2>
   <% end %>
 
-
+  <div class="clearfix"></div>
   <% if @contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
@@ -27,10 +27,10 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="<%= params[:group] == "client" ? "hide field" : "field" %>">
     <%= f.label :contact_type,  class: "select" do %>
       <span class="name">Type</span>
-      <%= f.select :contact_type, options_for_select([["Agent", "agent"], ["Client", "client"], ["Lender", "lender"], ["Vendor", "vendor"]], @contact.contact_type)%>
+      <%= f.select :contact_type, options_for_select([["Agent", "agent"], ["Client", "client"], ["Lender", "lender"], ["Vendor", "vendor"]], @contact.new_record? ? (params[:group].present? ? params[:group] : nil): @contact.contact_type)%>
     <% end %>
   </div>
 
@@ -46,26 +46,22 @@
     <hr>
   </div>
 
-  <div class="client-fields <%= @contact.contact_type == "client" ? nil : "hide" %>">
+  <div class="client-fields <%= @contact.contact_type == "client" || params[:group] == "client" ? nil : "hide" %>">
     <div class="field">
       <%= f.label :transaction_type, class: "select" do %>
         <span class="name">Transaction Type</span>
         <%= f.select :transaction_type, options_for_select([["Sale", "sale"], ["Purchase", "purchase"], ["Lease", "lease"],["Sale & Purchase", "sale_and_purchase"],["Sale & Lease", "sale_and_lease"]], @contact.transaction_type)%>
       <% end %>
     </div>
-    <div class="field">
+
+    <div class="<%= params[:group] == "client" ? "hide field" : "field" %>">
       <%= f.label :status, class: "control checkbox" do %>
         <span class="name">Active Client</span>
-        <%= f.check_box :status, class: "checkbox" %>
+        <%= f.check_box :status, class: "checkbox", checked: params[:group] == "client" %>
         <span class="control-indicator"></span>
         <span class="control-text">Is this an active client?</span>
       <% end %>
     </div>
-    <div class="field">
-      <%= f.label :dot_loop_id, "DotLoop ID" %>
-      <%= f.text_field :dot_loop_id %>
-    </div>
-    <hr>
   </div>
 
   <div class="field">
@@ -102,6 +98,15 @@
   </div>
   <%= hidden_field_tag :group, params[:group] %>
   <div class="actions">
-    <%= f.submit class: 'btn btn-default btn-block' %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= link_to "#", class: "btn btn-default btn-block cancel-edit" do %>
+          Cancel
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= f.submit class: 'btn btn-default-inverted btn-block' %>
+      </div>
+    </div>
   </div>
   <% end %>

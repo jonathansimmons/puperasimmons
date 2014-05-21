@@ -3,9 +3,12 @@ module Tokenable
 
   included do
     before_validation :generate_token, if: Proc.new { |tokenable| tokenable.uid.blank? }
+
+    def to_param
+      uid
+    end
   end
 
-  protected
 
   def generate_token
     self.uid = loop do

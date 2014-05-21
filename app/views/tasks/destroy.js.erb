@@ -1,0 +1,6 @@
+if ($('li[data-task-id="<%= @task.uid %>"]').parent().children().length <=1 ) {
+	$('li[data-task-id="<%= @task.uid %>"]').parent().prev('.task-contact').remove();
+	$('li[data-task-id="<%= @task.uid %>"]').parent().remove();
+} else {
+	$('li[data-task-id="<%= @task.uid %>"]').remove();
+}

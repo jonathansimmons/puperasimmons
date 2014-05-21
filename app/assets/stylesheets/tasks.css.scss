@@ -1,0 +1,92 @@
+// Place all the styles related to the Tasks controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#tasks {
+	.task-contact {
+		background: #ccc;
+		color: #FFF;
+		margin: 0 0 15px;
+		padding: 3px 0 3px 10px;
+		position: absolute;
+		font-size: inherit;
+		width: 107%;
+		position: relative;
+		display: block;
+		a {
+			color:#fff;
+			text-decoration: none;
+		}
+	}
+	ul {
+		padding:0;
+		.task {
+			list-style:none;
+			position:relative;
+			min-height:30px;
+			border-bottom:1px solid #eee;
+			margin-bottom:10px;
+			padding:0 10px;
+			&:last-child {
+				border-bottom:0;
+			}
+			.content {
+				display: block;
+				width: 80%;
+				margin-left: 25px;
+			}
+			.complete-form {
+				width: 0;
+				height: 0;
+				.control-indicator {
+					position: absolute;
+					top: -8px;
+				}
+			}
+			.meta {
+				text-align: right;
+				display: block;
+				font-size: 10px;
+				margin: -25px 0 10px;
+				color:#999;
+				a {
+					color:#999;
+					text-decoration: none;
+					.glyphicon {
+						color:#999;
+					}
+					&:hover {
+						color:#e5575c;
+					}
+				}
+			}
+			&:hover {
+				.meta {
+					color:#e5575c;
+					a {
+						color:#e5575c;
+						.glyphicon {
+							color:#e5575c;
+						}
+						&:hover {
+							color:#e5575c;
+						}
+					}
+				}
+			}
+			&.completed {
+				.content {
+					text-decoration: line-through;
+					color: #999;
+				}
+				.checkbox .control-indicator {
+					border-color:#999;
+				}
+				.control input:checked ~ .control-indicator  {
+					background-color: #999;
+				}
+			}
+		}
+	}
+}

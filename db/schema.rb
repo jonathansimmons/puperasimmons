@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140519025616) do
+ActiveRecord::Schema.define(version: 20140521020211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20140519025616) do
     t.string   "recipient_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
   end
 
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
@@ -68,6 +69,28 @@ ActiveRecord::Schema.define(version: 20140519025616) do
     t.boolean  "status",           default: false
   end
 
+  create_table "read_marks", force: true do |t|
+    t.integer  "readable_id"
+    t.integer  "user_id",       null: false
+    t.string   "readable_type", null: false
+    t.datetime "timestamp"
+  end
+
+  add_index "read_marks", ["user_id", "readable_type", "readable_id"], name: "index_read_marks_on_user_id_and_readable_type_and_readable_id", using: :btree
+
+  create_table "tasks", force: true do |t|
+    t.text     "content"
+    t.boolean  "completed"
+    t.datetime "due_date"
+    t.integer  "contact_id"
+    t.integer  "user_id"
+    t.integer  "contact_sort"
+    t.integer  "main_sort"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "name",                   default: "", null: false
     t.string   "email",                  default: "", null: false
@@ -83,6 +106,7 @@ ActiveRecord::Schema.define(version: 20140519025616) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

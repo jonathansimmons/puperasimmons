@@ -1,0 +1,46 @@
+.ioslist-wrapper{
+	height: 95%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	width: 100%;
+	z-index:1;
+}
+
+
+.ioslist-group-container {
+	margin: 0;
+	min-height: 1px;
+	overflow: hidden;
+	padding: 24px 0 0 0;
+	position: relative;
+}
+.ioslist-group-container:first-child {
+	margin-top: -4px;
+}
+.ioslist-group-header, .ioslist-fake-header {
+	background: #e5575c;
+	color: #FFF;
+	margin: 0;
+	padding: 3px 0 3px 10px;
+	position: absolute;
+	font-size:inherit;
+}
+.ioslist-group-header {
+	bottom: auto;
+	min-height: 1px;
+	top: 0;
+	width: 100%;
+}
+.ioslist-fake-header {
+	width: 100%;
+	z-index: 1000;
+}
+
+.ioslist-fake-header.ioslist-hidden {
+	visibility: hidden;
+}
+.ioslist-group-container.ioslist-animated .ioslist-group-header {
+	bottom: 0;
+	top: auto;
+}

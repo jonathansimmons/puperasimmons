@@ -1,69 +1,88 @@
-<p id="notice"><%= notice %></p>
+<% title @contact.name %>
 
-<p>
-  <strong>Type:</strong>
-  <%= @contact.type %>
-</p>
+<div class="bucket">
+  <div class="bucket-header">
+    <h3>Contact Info</h3>
+  </div>
+  <div class="bucket-body bucket-padding">
+    <div class="row">
+      <div class="col-md-6">
+        <dl class="dl-horizontal">
+          <dt>Email</dt><dd><%= @contact.email %></dd>
+          <dt>Phone</dt><dd><%= @contact.phone %></dd>
+          <dt>Transaction Type</dt><dd><span class="label label-info"> <%= @contact.pretty_transaction %></span> </dd>
+          <% if @contact.company.present? %>
+            <dt>Company</dt><dd> <%= @contact.company %></dd>
+          <% end %>
+          <% if @contact.service.present?  %>
+            <dt>Service</dt><dd><%= @contact.service %> </dd>
+          <% end %>
+        </dl>
+      </div>
+      <div class="col-md-6">
+        <dl class="dl-horizontal">
+          <dt>Street</dt><dd><%= @contact.street %></dd>
+          <dt>City</dt><dd><%= @contact.city %></dd>
+          <dt>State</dt><dd><%= @contact.state %></dd>
+          <dt>Zipcode</dt><dd><%= @contact.postal_code %></dd>
+        </dl>
+      </div>
+    </div>
+    <dl class="dl-horizontal">
+      <dt>Notes</dt><dd><%= @contact.notes %></dd>
+    </dl>
+  </div>
+</div>
 
-<p>
-  <strong>Transaction type:</strong>
-  <%= @contact.transaction_type %>
-</p>
+<hr>
 
-<p>
-  <strong>Status:</strong>
-  <%= @contact.status %>
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <div class="bucket">
+      <div class="bucket-header">
+        <h3>Tasks</h3>
+        <div class="bucket-actions">
+          <%= link_to new_task_path(), remote: true do %>
+            <span class="glyphicon glyphicon-plus"></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="bucket-subheader">
+        <div class="bucket-actions">
+          <%= form_tag contact_path(@contact), method: :get do |f| %>
+          <div class="field">
+            <%= label_tag :assigned_to,  class: "select" do %>
+              <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
+            <% end %>
+          </div>
+        <% end %>
+        </div>
+      </div>
+      <div class="bucket-body">
+        <div id="tasks">
+          <%= render "tasks/tasks", tasks: @contact.tasks %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="bucket">
+      <div class="bucket-header">
+        <h3>Comments</h3>
+        <div class="bucket-actions">
+          <%= link_to new_contact_path(group: "client"), remote: true do %>
+            <span class="glyphicon glyphicon-plus"></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="bucket-body">
+        <div id="comments" class="comment-scroll">
+          <%= render "comments/comments" %>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @contact.name %>
-</p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @contact.email %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @contact.phone %>
-</p>
-
-<p>
-  <strong>Company:</strong>
-  <%= @contact.company %>
-</p>
-
-<p>
-  <strong>Street:</strong>
-  <%= @contact.street %>
-</p>
-
-<p>
-  <strong>City:</strong>
-  <%= @contact.city %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%= @contact.state %>
-</p>
-
-<p>
-  <strong>Postal code:</strong>
-  <%= @contact.postal_code %>
-</p>
-
-<p>
-  <strong>Service:</strong>
-  <%= @contact.service %>
-</p>
-
-<p>
-  <strong>Loop:</strong>
-  <%= @contact.loop_id %>
-</p>
-
-<%= link_to 'Edit', edit_contact_path(@contact) %> |
-<%= link_to 'Back', contacts_path %>

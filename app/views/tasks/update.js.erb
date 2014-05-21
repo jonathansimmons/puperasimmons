@@ -1,0 +1,10 @@
+$('#right_sidebar, body').removeClass('editing');
+$('#form_container').html(" ");
+
+$('li[data-task-id="<%= @task.uid %>"]').replaceWith('<%= j render @task %>');
+
+<% if @task.completed? %>
+	$('li[data-task-id="<%= @task.uid %>"]').addClass('completed');
+<% else %>
+	$('li[data-task-id="<%= @task.uid %>"]').removeClass('completed');
+<% end %>

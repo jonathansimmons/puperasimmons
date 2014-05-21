@@ -1,0 +1,36 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= @contact.present? ? @contact.name : truncate(@task.content, length: 30) %> - Comment Thread</h4>
+      </div>
+      <div id="comments" class="modal-body">
+        <ul>
+          <% @comments.each do |comment| %>
+            <%= render comment %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <%= form_for @comment, remote: true do |f| %>
+          <%= f.text_area :comment, placeholder: "Add comment...", class: "comment-box ", style: "width:100%;border:1px solid #dedede; border-radius:3px;margin-bottom:10px;" %>
+          <% if @contact.present? %>
+            <%= f.hidden_field :contact_id, value: @contact.uid %>
+          <% end %>
+          <% if @task.present? %>
+            <%= f.hidden_field :task_id, value: @task.uid %>
+          <% end %>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-default btn-sm btn-block" data-dismiss="modal">Close</button>
+            </div>
+            <div class="col-md-6">
+              <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

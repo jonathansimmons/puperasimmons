@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @task.content %>
+</p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @task.completed %>
+</p>
+
+<p>
+  <strong>Due date:</strong>
+  <%= @task.due_date %>
+</p>
+
+<p>
+  <strong>Contact:</strong>
+  <%= @task.contact_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @task.user_id %>
+</p>
+
+<p>
+  <strong>Contact sort:</strong>
+  <%= @task.contact_sort %>
+</p>
+
+<p>
+  <strong>Main sort:</strong>
+  <%= @task.main_sort %>
+</p>
+
+<p>
+  <strong>Uid:</strong>
+  <%= @task.uid %>
+</p>
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

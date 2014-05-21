@@ -58,9 +58,6 @@ gem "twitter-bootstrap-rails-confirm", github: "bluerail/twitter-bootstrap-rails
 gem "unf" # FOG SOFT DEPENDENCY
 gem "url_field"
 gem "postmark-rails"
-gem "delayed_job_active_record"
-gem "intercom"
-gem "intercom-rails", "~> 0.2.24"
 gem 'active_link_to'
 gem 'acts_as_commentable'
 
@@ -68,6 +65,6 @@ gem 'acts_as_commentable'
 gem 'public_activity'
 gem 'paper_trail'
 gem "possessive"
-
+gem "unread"
 
 gem "debugger", group: [:development, :test]

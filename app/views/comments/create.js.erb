@@ -1,0 +1,12 @@
+$("#comments ul").removeClass('editing');
+<% case @comment.commentable.class.name %>
+<% when "Task" %>
+	$("li[data-task-id='<%= @comment.commentable.uid %>']").replaceWith('<%= j render @comment.commentable %>')
+	$("#comments").html('<%= j render @comment.commentable.comments  %>')
+<% when "Contact" %>
+	$("li[data-contact-id='<%= @comment.commentable.uid %>']").replaceWith('<%= j render @comment.commentable %>')
+	$("#comments").html('<%= j render @comment.commentable.comments  %>')
+<% end %>
+
+$('.modal').modal('hide');
+$(body).focus()

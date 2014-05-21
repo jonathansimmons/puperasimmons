@@ -1,0 +1,4 @@
+$('#right_sidebar, body').addClass('editing');
+$('#form_container').html("<%= j render 'form' %>")
+$('.bfh-datepicker').bfhdatepicker({'name': 'task[due_date]', 'date': '<%= @task.due_date.present? ? @task.due_date.strftime("%m/%d/%Y") : nil %>'});
+$('#task_content').focus();

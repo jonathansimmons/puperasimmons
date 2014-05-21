@@ -1,0 +1,6 @@
+$('#modals').html('<%= j render "comments/comments_modal", contact: @contact %>')
+$('.modal').modal({
+  keyboard: false,
+  show: true,
+  backdrop:true
+})

@@ -1,13 +1,20 @@
 class CommentsController < ApplicationController
-	before_action :find_contact, only: [:create]
-	before_action :find_comment, only: [:update, :destroy]
+	before_action :find_contact, only: :create
+  before_action :find_task, only: :create
+	before_action :find_comment, only: :destroy
 
-  def create
-  	@contact.comments.create(comment: params[:comment][:comment], user_id: current_user.id)
+  def edit
   end
 
-  def update
-  	 @contact.comments.create(comment: params[:comment])
+  def create
+    if @contact.present?
+    	@comment = @contact.comments.create(comment: params[:comment][:comment], user_id: current_user.id)
+      @contact.create_activity key: 'contact.comment_on', owner: current_user
+      PublicActivity::Activity.create trackable: @contact, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token
+    elsif @task.present?
+      @comment = @task.comments.create(comment: params[:comment][:comment], user_id: current_user.id)
+      PublicActivity::Activity.create trackable: @task, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token
+    end
   end
 
   def destroy
@@ -16,11 +23,15 @@ class CommentsController < ApplicationController
 
   private
 
-  def find_contact
-  	@comment = Contact.find(params[:comment_id])
+  def find_comment
+  	@comment = Comment.find(params[:id])
   end
 
   def find_contact
   	@contact = Contact.find_by(uid: params[:comment][:contact_id])
+  end
+
+  def find_task
+    @task = Task.find_by(uid: params[:comment][:task_id])
   end
 end

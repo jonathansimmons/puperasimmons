@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :set_contact, only: [:show, :edit, :update, :destroy]
+  before_action :set_contact, only: [:show, :edit, :view_comments, :update, :destroy]
 
   # GET /contacts
   # GET /contacts.json
@@ -22,6 +22,21 @@ class ContactsController < ApplicationController
   # GET /contacts/1
   # GET /contacts/1.json
   def show
+    @comment = Comment.new
+
+    if params[:assigned_to].present?
+      @user = User.find_by(name: params[:assigned_to])
+      @tasks = @contact.tasks.where(user_id: @user.id)
+    else
+      @tasks = @contact.tasks
+    end
+
+    @task_groups = @tasks.group_by{ |t| t.due_date.present? ? t.due_date.strftime("%m.%d.%y") : "No Due Date" }
+  end
+
+  def view_comments
+    @comment = Comment.new
+    @comments = @contact.comments
   end
 
   # GET /contacts/new
@@ -44,7 +59,7 @@ class ContactsController < ApplicationController
     @group = params[:group]
     respond_to do |format|
       if @contact.save
-        @contact.create_activity key: 'contact.created', owner: current_user
+         PublicActivity::Activity.create trackable: @contact, key: 'contact.created', owner: current_user, parameters: { url: contact_path(@contact) }, uid: Activity.new().generate_token
         format.js
       else
         format.html { render action: 'new' }
@@ -58,7 +73,7 @@ class ContactsController < ApplicationController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        @contact.create_activity key: 'contact.updated', owner: current_user, parameters: {changes: @contact.versions.last.changeset }
+       PublicActivity::Activity.create trackable: @contact, key: 'contact.updated', owner: current_user, parameters: {changes: @contact.versions.last.changeset, url: contact_path(@contact) }, uid: Activity.new().generate_token
         format.js
       else
         format.html { render action: 'edit' }

@@ -13,21 +13,42 @@
 		border-left: 5px solid transparent;
 		border-bottom: 1px solid #dedede;
 		transition:all 500ms linear;
-		overflow:hidden;
+		&.dashboard-contact {
+			padding:10px;
+			border-left:0;
+			.btn-xs-round {
+				margin-top: 10px;
+			}
+		}
 		a {
 			color:#333;
 			text-decoration:none;
+			&.btn {
+				color:#e5575c;
+			}
 		}
 		&.active{
 			border-color:#e5575c;
 			background:#f9f9f9;
 		}
-		span {
+		.identity {
 			display:block;
-			&.info {
-				text-align:right;
-				color:#999;
-			}
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.info {
+			display: block;
+			text-align:right;
+			color:#999;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.meta {
+			float:right;
+			margin-top: 20px;
+			font-size: 12px;
 		}
 		.name {
 			font-size:20px;
@@ -40,105 +61,50 @@
 			color: #e5575c;
 		}
 		#details {
-			opacity:0;
+			display:none;
+			height:0;
 			min-height:0;
 			transition:all 500ms linear;
-
-			h4 {
-				color:#e5575c;
-				padding-bottom:10px;
-				border-bottom:1px solid #e5575c;
-			}
-			#comments {
-				padding:0;
-				max-height:250px;
-				overflow-y:scroll;
-				overflow-x:hidden;
-				list-style:none;
-				.comment {
-					margin-bottom:15px;
-					.time {
-						color:#999;
-					}
-					.comment-body {
-						background: #fff;
-						border: 1px solid #dedede;
-						border-radius: 3px;
-						padding: 5px 10px;
-						margin-top:10px;
-					}
-					.comment-body {
-						position: relative;
-						background: #fff;
-						border: 1px solid #dedede;
-					}
-					.comment-body:after, .comment-body:before {
-						bottom: 100%;
-						left: 50%;
-						border: solid transparent;
-						content: " ";
-						height: 0;
-						width: 0;
-						position: absolute;
-						pointer-events: none;
-					}
-
-					.comment-body:after {
-						border-color: rgba(255, 255, 255, 0);
-						border-bottom-color: #fff;
-						border-width: 7px;
-						margin-left: -47%;
-					}
-					.comment-body:before {
-						border-color: rgba(222, 222, 222, 0);
-						border-bottom-color: #dedede;
-						border-width: 9px;
-						margin-left: -47.5%;
-					}
-					&:nth-child(even) {
-						.time {
-							text-align:right;
-						}
-						.comment-body:after {
-							margin-left: 43%;
-						}
-						.comment-body:before {
-							margin-left: 42.5%;
-						}
-					}
-				}
-				#new_comment {
-					textarea {
-						border-radius: 3px;
-						border: 1px solid #dedede;
-						background: #fff;
-						height: 75px;
-						width: 100%;
-						padding: 10px;
-						&:focus {
-							outline:0;
-						}
-					}
-				}
-			}
-
+		}
+		&.editing {
+			background: #f9f9f9;
+			border-left: 5px solid #e5575c;
 		}
 		&.open {
-			height:500px;
-			min-height:500px;
+			height:auto;
+			min-height:220px;
+			border-bottom:0;
 			#details {
-			opacity:1;
+				display:block;
+				height:auto;
 			}
 		}
 	}
 }
 
 
-#contact_form {
-	padding:15px;
+#form_container {
+	padding: 15px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	hr {
+		border-top: 1px solid #d9d9d9;
+		border-bottom: 1px solid #fff;
+		margin: 0 0 15px;
+	}
+	.actions {
+		padding-top:15px;
+		border-top:1px solid #e5575c;
+	}
 	h2 {
 		color:#e5575c;
 		text-align:right;
+	}
+	.bfh-datepicker {
+		margin-top: 4px;
 	}
 	label, .name {
 		cursor:pointer;
@@ -149,7 +115,7 @@
 	}
 	input[type="text"] {
 		border:0;
-		background: none;
+		background: #fff;
 		margin-bottom: 10px;
 		cursor: text;
 		font-size: 16px;
@@ -168,7 +134,7 @@
 		}
 	}
 	textarea {
-		background: none;
+		background: #fff;
 		width: 100%;
 		border: 0;
 		height: 75px;
@@ -176,12 +142,21 @@
 			outline:0;
 		}
 	}
+	.bfh-datepicker-calendar>table.calendar {
+		width: 90%;
+	}
+	.bfh-datepicker-toggle {
+		width: 100%;
+		.input-group-addon {
+			display:none !important;
+		}
+	}
 	.select {
 		border-bottom:0;
 		position:relative;
 		&:after {
 			position: absolute;
-			top: 62%;
+			top: 66%;
 			right: 1.25rem;
 			display: inline-block;
 			content: "";
@@ -196,8 +171,14 @@
 		}
 		&:hover {
 			&:after {
-				border-top-color:#999;
+				border-top-color:#e5575c;
 			}
+		}
+		.clear-date {
+			position: absolute;
+			top: 35px;
+			z-index: 100;
+			right: 10px;
 		}
 	}
 	.checkbox {
@@ -211,8 +192,8 @@
 	}
 	select {
 		display: inline-block;
-		margin: 0;
-		padding: .5rem 0;
+		margin: 5px 0 0;
+		padding: .5rem;
 		line-height: 1.5;
 		color: #555;
 		border: 0;
@@ -223,7 +204,7 @@
 		-moz-appearance: none;
 		appearance: none;
 		width: 100%;
-		background: none;
+		background: #fff;
 		font-size: 16px;
 		font-weight: normal;
 	}

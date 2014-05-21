@@ -1,15 +1,31 @@
 #activities {
+	.mark-read {
+		float: right;
+		margin: -30px 10px 0 0;
+		display: block;
+		.badge {
+			border: 1px solid #e5575c;
+			background: #fff;
+			color: #e5575c;
+		}
+	}
+
 	ul.activities {
-		padding: 15px;
+		padding:0;
+		margin: 0;
 		.activity {
-			list-style:none;
+			list-style: none;
 			position: relative;
-			z-index:1;
-			margin-bottom:15px;
+			z-index: 1;
+			padding: 25px 15px 10px;
+			color:#888;
 			.time {
-				color:#999;
-				display:block;
-				text-indent:15px;
+				color: #999;
+				display: block;
+				text-indent: 15px;
+				font-size: 12px;
+				top: 10px;
+				position: absolute;
 				&:after {
 					display: block;
 					border: 1px solid #dedede;
@@ -18,7 +34,7 @@
 					height: 10px;
 					content: " ";
 					position: absolute;
-					top: 6px;
+					top: 3px;
 					border-radius: 5px;
 				}
 			}
@@ -26,10 +42,31 @@
 				margin-left:20px;
 			}
 			a {
-				color:#e5575c;
+				color:#888;
 				text-decoration: none;
+				.highlight {
+					color:#e5575c;
+				}
+			}
+			&.unread {
+				border-bottom:1px solid #dedede;
+				background:#fff;
+				color:#333;
+				.time {
+					&:after {
+						background:#e5575c;
+						border-color:#e5575c;
+					}
+				}
+				+ .unread {
+					border-top:0;
+				}
+			}
+			+ .unread {
+				border-top:1px solid #dedede;
 			}
 		}
+
 		&:after {
 			display: block;
 			border-left: 1px solid #dedede;

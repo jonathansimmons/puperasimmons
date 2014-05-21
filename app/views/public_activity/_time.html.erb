@@ -1,1 +1,7 @@
-  <span class="time"><%= time_ago_in_words(activity.created_at) %> ago</span>
+  <span class="time" title="<%= activity.created_at.strftime('%e %b, %Y - %I:%M %p') %>">
+  	<% if activity.created_at > DateTime.now-12.hours%>
+		  <%= time_ago_in_words(activity.created_at) %> ago
+		<% else %>
+			<%= activity.created_at.strftime('%I:%M %p') %>
+  	<% end %>
+  </span>

@@ -1,76 +1,54 @@
-<li class="contact" data-contact-id="<%= contact.uid %>">
+<li class="contact dashboard-contact" data-contact-id="<%= contact.uid %>">
   <div class="row">
-    <div class="col-md-6 col-sm-6 col-xs-6">
-      <span class="identity name"><%= contact.name %></span>
-      <span class="identity details"><%= "#{contact.transaction_type.gsub("_", " ").titleize}" %></span>
-    </div>
-    <div class="col-md-5 col-sm-5 col-xs-5">
-      <span class="info phone"><%= number_to_phone(contact.phone) %></span>
-      <span class="info email"><%= contact.email %></span>
-    </div>
-    <div class="col-md-1 col-sm-1 col-xs-1">
-      <%= link_to "#", class: "round-btn pull-right view-details", remote: true do %>
-        <span class="glyphicon glyphicon-chevron-right"></span>
-      <% end %>
-    </div>
+      <div class="col-md-6 col-sm-6 col-xs-6">
+        <%= link_to contact do %>
+          <span class="identity name"><%= contact.name %></span>
+          <span class="identity details"><%= "#{contact.transaction_type.gsub("_", " ").titleize}" %></span>
+        <% end %>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+        <div class="meta">
+          <span ><%= link_to view_comments_contact_path(contact), remote: true do %> <%= pluralize(contact.comments.count, "Comment") %> <% end %> | <%= pluralize(contact.tasks.count, "Task") %>
+          </span>
+        </div>
+      </div>
   </div>
 
   <div id="details">
     <hr>
     <div class="row">
-      <div class="col-md-6 col-sm-6">
-        <div class="bucket">
-          <div class="bucket-header">
-            <h4>Tasks</h4>
-            <div class="bucket-actions">
-              <%= link_to "New Task", "#", class: "btn btn-default btn-xs" %>
-            </div>
-          </div>
-          <div class="bucket-body">
-
-          </div>
-        </div>
-
-      </div>
-      <div class="col-md-6 col-sm-6">
-        <div class="bucket-header">
-          <h4>Comments</h4>
-        </div>
-        <div class="bucket-body">
-          <ul id="comments">
+      <div class="col-md-12">
+        <div id="comments">
+          <ul>
             <% contact.comments.each do |comment| %>
-              <li class="comment">
-                <span class="time"><%= comment.user.name %> <%= time_ago_in_words(comment.created_at) %></span>
+              <li class="comment <%= comment.user == current_user ? 'me' : nil %>" data-comment-id="<%= comment.id %>">
                 <span class="comment-body"><%= comment.comment %></span>
+                <div class="meta">
+                  <span class="options">
+                    <%= link_to "edit", edit_comment_path(comment), remote: true %> | <%= link_to "delete", comment_path(comment), method: :delete, remote: true %>
+                  </span>
+                  <span class="time" title="<%= comment.created_at.strftime('%e %b, %Y - %I:%M %p') %>"><%= time_ago_in_words(comment.created_at) %> ago</span>
+                </div>
+                <% if comment.user == current_user %>
+                  <%= form_for comment, html: {class: 'edit-comment hide'}, remote: true do |f| %>
+                    <%= f.text_area :comment, placeholder: "add comment...", class: "comment-box " %>
+                    <div class="actions">
+                      <%= link_to "Cancel", "#", class: "cancel-comment-edit btn btn-xs btn-default" %>
+                      <%= f.submit "Save", class: "btn btn-xs btn-default-inverted" %>
+                    </div>
+                  <% end %>
+                <% end %>
               </li>
             <% end %>
+          </ul>
+          <%= form_for @comment do |f| %>
             <% if contact.comments.any? %>
               <hr>
             <% end %>
-            <%= form_for @comment do |f| %>
-              <%= f.text_area :comment, placeholder: "add comment...", class: "comment-box " %>
-              <%= f.hidden_field :contact_id, value: contact.uid %>
-              <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
-            <% end %>
-            <script>
-            $(document).ready(function(){
-                $(".comment-box").mention({
-                  delimiter: '@',
-                  emptyQuery: true,
-                  typeaheadOpts: {
-                      items: 10 // Max number of items you want to show
-                  },
-                  users: [{
-                        username: "ashley"
-                    }, {
-                        username: "roger"
-                    }, {
-                        username: "frecklefart123"
-                    }]
-                });
-              });
-            </script>
-          </ul>
+            <%= f.text_area :comment, placeholder: "add comment...", class: "comment-box " %>
+            <%= f.hidden_field :contact_id, value: contact.uid %>
+            <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
+          <% end %>
         </div>
       </div>
     </div>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  completed: false
+  due_date: 2014-05-19 16:34:53
+  contact_id: 1
+  user_id: 1
+  contact_sort: 1
+  main_sort: 1
+  uid: MyString
+
+two:
+  content: MyText
+  completed: false
+  due_date: 2014-05-19 16:34:53
+  contact_id: 1
+  user_id: 1
+  contact_sort: 1
+  main_sort: 1
+  uid: MyString

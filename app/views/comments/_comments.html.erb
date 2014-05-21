@@ -1,0 +1,13 @@
+<ul>
+  <% @contact.comments.each do |comment| %>
+    <%= render comment %>
+  <% end %>
+</ul>
+<% if @contact.comments.any? %>
+  <hr>
+<% end %>
+<%= form_for @comment do |f| %>
+  <%= f.text_area :comment, placeholder: "add comment...", class: "comment-box " %>
+  <%= f.hidden_field :contact_id, value: @contact.uid %>
+  <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
+<% end %>

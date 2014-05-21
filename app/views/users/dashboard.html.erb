@@ -1,7 +1,57 @@
 <% title "Dashboard" %>
 
-<ul id="contacts">
-	<% @contacts.each do |contact| %>
-		<%= render "contacts/dashboard_contact", contact: contact %>
-	<% end %>
-</ul>
+<div class="row">
+	<div class="col-md-6">
+		<div class="bucket">
+			<div class="bucket-header">
+				<h3>Active Clients</h3>
+				<div class="bucket-actions">
+					<%= link_to new_contact_path(group: "client"), remote: true do %>
+            <span class="glyphicon glyphicon-plus"></span>
+          <% end %>
+				</div>
+			</div>
+			<div class="bucket-body">
+				<ul id="contacts">
+					<% @contacts.each do |contact| %>
+						<%= render "contacts/dashboard_contact", contact: contact %>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="bucket">
+			<div class="bucket-header">
+				<h3>Tasks</h3>
+				<div class="bucket-actions">
+					<%= link_to new_task_path(), remote: true do %>
+            <span class="glyphicon glyphicon-plus"></span>
+          <% end %>
+				</div>
+			</div>
+			<div class="bucket-subheader">
+				<div class="bucket-actions">
+				  <%= form_tag root_url, method: :get do |f| %>
+				  <div class="field">
+				    <%= label_tag :sort_by,  class: "select" do %>
+				      <%= select_tag :sort_by, options_for_select([["Client", "client"], ["Due Date", "due_date"]], params[:sort_by].present? ? params[:sort_by] : nil), prompt: "Sort By" %>
+				    <% end %>
+				  </div>
+				  <div class="field">
+				    <%= label_tag :assigned_to,  class: "select" do %>
+				      <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
+				    <% end %>
+				  </div>
+				<% end %>
+				</div>
+			</div>
+			<div class="bucket-body">
+				<div id="tasks">
+					<%= render "tasks/tasks", tasks: @tasks %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -10,12 +10,18 @@
 </head>
 <body>
 	<sidebar id="left_sidebar">
-		<%= image_tag asset_path("logo.png"), class: "logo" %>
+		<%= link_to root_path, class: 'logo' do  %>
+			<%= image_tag asset_path("logo.png")  %>
+		<% end %>
 		<span class="divider"></span>
 		<span class="link"><%= active_link_to "Dashboard", root_path, active: :exclusive %></span>
 		<span class="divider"></span>
 		<span class="link"><%= active_link_to "Contacts", contacts_path %></span>
 		<span class="divider"></span>
+		<div class="controls">
+			<span class="divider"></span>
+			<span class="link"><%= link_to logout_path do %> <span class="glyphicon glyphicon-chevron-left"></span> Logout	<% end %></span>
+		</div>
 	</sidebar>
 
 	<section id="content" class="page">
@@ -23,14 +29,18 @@
 			<div class="container-fluid">
 				<h2><%= yield(:title) %></h2>
 				<div class="page-actions">
-					<% if controller_name == "contacts" && action_name == "index" %>
-						<%= link_to new_contact_path(group: params[:group]), class: "round-btn add-contact pull-right", remote: true do %>
-	              <span class="glyphicon glyphicon-plus"></span>
-						<% end %>
-					<% end %>
 					<%= form_tag contacts_path, method: :get do %>
-						<input type="text" name="search" placeholder="SEARCH CONTACTS">
+						<input type="text" name="search" placeholder="SEARCH CONTACTS" value="<%= params[:search] %>">
 					  <%= hidden_field_tag :group, params[:group] %>
+					<% end %>
+					<% if controller_name == "contacts" && action_name == "index" %>
+						<%= link_to new_contact_path(group: params[:group]), class: "btn btn-default btn-sm add-contact", remote: true do %>
+	              New Contact
+						<% end %>
+					<% elsif controller_name =="contacts" && action_name == "show" %>
+						<%= link_to edit_contact_path(@contact), class: "btn btn-default btn-sm add-contact", remote: true do %>
+		           Edit
+						<% end %>
 					<% end %>
 				</div>
 				<% if controller_name == "contacts" && action_name == "index" %>
@@ -55,8 +65,10 @@
 		<div id="activities">
 			<%= render "public_activity/activity_list" %>
 		</div>
-		<div id="contact_form"></div>
+		<div id="form_container"></div>
 	</sidebar>
+	<div id="modals">
 
+	</div>
 </body>
 </html>

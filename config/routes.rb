@@ -1,22 +1,26 @@
 Rails.application.routes.draw do
 
-  get 'comment/create'
-
-  get 'comment/update'
-
-  get 'comment/destroy'
-
-  resources :contacts
-
-  devise_for :users
+  devise_for :users, controllers: { sessions: "sessions"}
 
   devise_scope :user do
-    get "/login" => "devise/sessions#new", as: :login
+    get ":uid/mark-all-read" => "users#read_all", as: :read_all_activities
+    get "read/:uid" => "users#read_activity", as: :read_activity
+    get "/login" => "sessions#new", as: :login
     get "/logout" => "sessions#destroy", as: :logout
   end
 
   root "users#dashboard"
 
-  resources :contact
-  resources :comments, only: [:create, :update, :destroy]
+
+  resources :tasks do
+    member do
+      get :view_comments
+    end
+  end
+  resources :contacts do
+    member do
+      get :view_comments
+    end
+  end
+  resources :comments, only: [:edit, :create, :update, :destroy]
 end
