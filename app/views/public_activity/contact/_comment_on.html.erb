@@ -1,12 +1,15 @@
 <li class="<%= activity.id.in?(@unread_activities.collect{|a| a.id}) ? 'activity unread' : 'activity' %>" data-activity-id="<%= activity.uid %>">
-	<%= link_to read_activity_path(activity.uid) do %>
-	  <%= render "public_activity/time", activity: activity %>
-	  <div class="content">
-	    <% if activity.trackable %>
+	<% if activity.trackable %>
+		<%= link_to read_activity_path(activity.uid) do %>
+		  <%= render "public_activity/time", activity: activity %>
+		  <div class="content">
 	      <%= activity.owner.name %> commented on <span class="highlight"><%= activity.trackable.name %></span>.
-	    <% else %>
+		  </div>
+		 <% end %>
+	<% else %>
+		<%= render "public_activity/time", activity: activity %>
+	  <div class="content">
 	      <%= activity.owner.name %> commented on a contact which has since been removed.
-	    <% end %>
 	  </div>
-	 <% end %>
+	<% end %>
 </li>
