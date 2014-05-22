@@ -1,4 +1,4 @@
-<%= form_for @contact, remote: true do |f| %>
+<%= form_for @contact do |f| %>
   <%= link_to "#", class: "btn btn-default btn-sm-round cancel-edit" do %>
     <span class="glyphicon glyphicon-chevron-left"></span>
   <% end %>
@@ -100,13 +100,21 @@
   <div class="actions">
     <div class="row">
       <div class="col-md-6">
-        <%= link_to "#", class: "btn btn-default btn-block cancel-edit" do %>
-          Cancel
-        <% end %>
+        <%= link_to "Cancel", "#", class: "btn btn-default btn-block cancel-edit" %>
       </div>
       <div class="col-md-6">
         <%= f.submit class: 'btn btn-default-inverted btn-block' %>
       </div>
     </div>
+    <% unless @contact.new_record?  %>
+      <div class="row row-bottom">
+        <div class="col-md-12">
+          <%= link_to contact_path(@contact), method: :delete, class: "text-muted pull-right",
+    data: {confirm: "Are you sure you want to delete this contact?", confirm_fade: true, confirm_title: "Delete Contact", confirm_cancel: "Cancel", confirm_cancel_class: "btn-default", confirm_proceed: "Delete", confirm_proceed_class: "btn-default-inverted" } do %>
+            <span class="glyphicon glyphicon-trash"></span> Delete Contact?
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
   <% end %>

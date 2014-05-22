@@ -59,7 +59,10 @@ class ContactsController < ApplicationController
     @group = params[:group]
     respond_to do |format|
       if @contact.save
-         PublicActivity::Activity.create trackable: @contact, key: 'contact.created', owner: current_user, parameters: { url: contact_path(@contact) }, uid: Activity.new().generate_token
+         @activity = PublicActivity::Activity.create trackable: @contact, key: 'contact.created', owner: current_user, parameters: { url: contact_path(@contact) }, uid: Activity.new().generate_token
+         Activity.find(@activity.id).mark_as_read! :for => current_user
+
+        format.html { redirect_to @contact }
         format.js
       else
         format.html { render action: 'new' }
@@ -73,7 +76,9 @@ class ContactsController < ApplicationController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-       PublicActivity::Activity.create trackable: @contact, key: 'contact.updated', owner: current_user, parameters: {changes: @contact.versions.last.changeset, url: contact_path(@contact) }, uid: Activity.new().generate_token
+        @activity = PublicActivity::Activity.create trackable: @contact, key: 'contact.updated', owner: current_user, parameters: {changes: @contact.versions.last.changeset, url: contact_path(@contact) }, uid: Activity.new().generate_token
+        Activity.find(@activity.id).mark_as_read! :for => current_user
+        format.html { redirect_to @contact }
         format.js
       else
         format.html { render action: 'edit' }

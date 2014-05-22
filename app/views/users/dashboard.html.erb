@@ -15,7 +15,7 @@
 				<% if @contacts.present? %>
 					<ul id="contacts">
 						<% @contacts.each do |contact| %>
-							<%= render "contacts/dashboard_contact", contact: contact %>
+							<%= render contact %>
 						<% end %>
 					</ul>
 				<% else %>
