@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
  	def load_activities
   	if user_signed_in?
-	  	@activities = PublicActivity::Activity.all.order(:created_at)
+	  	@activities = PublicActivity::Activity.limit(100).order(:created_at)
 	  	@activity_groups = @activities.group_by{ |t| t.created_at.beginning_of_day }
 	  	@unread_activities = Activity.unread_by(current_user)
 	  end
