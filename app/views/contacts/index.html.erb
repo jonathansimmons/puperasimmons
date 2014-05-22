@@ -3,10 +3,22 @@
 
 <div class="bucket">
 	<div class="bucket-body">
-		<ul id="contacts">
-		  <% @contacts.each do |contact| %>
-		    <%= render contact %>
-		  <% end %>
-		</ul>
+		<% if @contacts.present? %>
+			<ul id="contacts">
+			  <% @contacts.each do |contact| %>
+			    <%= render contact %>
+			  <% end %>
+			</ul>
+		<% else %>
+			<% if params[:search].present? %>
+				<% if params[:group].present? %>
+					<p style="padding:15px 0 0;text-align:center;">There are no contacts matching your search in this group. <%= link_to "Search All Groups", contacts_path(group: nil, search: params[:search]) %></p>
+				<% else %>
+					<p style="padding:15px 0 0;text-align:center;">There are no contacts matching your search for "<%= params[:search] %>".</p>
+				<% end %>
+			<% else %>
+				<p style="padding:15px 0 0;text-align:center;">There are no contacts in this group yet.</p>
+			<% end %>
+		<% end %>
 	</div>
 </div>
