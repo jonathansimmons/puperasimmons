@@ -47,7 +47,7 @@
           <% end %>
         </div>
       </div>
-      <% if @contact.tasks.present? %>
+      <% if @tasks.present? || params[:assigned_to] %>
         <div class="bucket-subheader">
           <div class="bucket-actions">
             <%= form_tag contact_path(@contact), method: :get do |f| %>
@@ -61,12 +61,16 @@
         </div>
       <% end %>
       <div class="bucket-body">
-        <% if @contact.tasks.present? %>
+        <% if @tasks.present? %>
           <div id="tasks">
-            <%= render "tasks/tasks", tasks: @contact.tasks %>
+            <%= render "tasks/tasks", tasks: @tasks %>
           </div>
         <% else %>
-          <p style="padding:15px 0 0;text-align:center;">There are currently no pending tasks.</p>
+          <% if params[:assigned_to].present? %>
+            <p style="padding:15px 0 0;text-align:center;">There are currently no pending tasks for "<%= params[:assigned_to] %>".</p>
+          <% else %>
+            <p style="padding:15px 0 0;text-align:center;">There are currently no pending tasks.</p>
+          <% end %>
         <% end %>
       </div>
     </div>

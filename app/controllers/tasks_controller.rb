@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :update, :view_comments, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :view_comments, :destroy]
 
   # GET /tasks
   # GET /tasks.json
@@ -20,6 +20,9 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
+  end
+
+  def edit
   end
 
   # POST /tasks
@@ -61,7 +64,7 @@ class TasksController < ApplicationController
           @activity = PublicActivity::Activity.create trackable: @task, key: 'task.completed', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token if @task.completed
           Activity.find(@activity.id).mark_as_read! :for => current_user
         else
-          PublicActivity::Activity.where(trackable_type: "Task", trackable_id: @task.id, key: "task.completed").destroy
+          PublicActivity::Activity.where(trackable_type: "Task", trackable_id: @task.id, key: "task.completed").delete_all
           @activity = PublicActivity::Activity.create trackable: @task, key: 'task.updated', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token
           Activity.find(@activity.id).mark_as_read! :for => current_user
         end
