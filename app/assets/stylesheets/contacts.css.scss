@@ -9,17 +9,9 @@
 	list-style:none;
 	li.contact {
 		height: 70px;
-		padding: 10px 25px;
-		border-left: 5px solid transparent;
+		padding: 10px 15px;
 		border-bottom: 1px solid #dedede;
 		transition:all 500ms linear;
-		&.dashboard-contact {
-			padding:10px;
-			border-left:0;
-			.btn-xs-round {
-				margin-top: 10px;
-			}
-		}
 		a {
 			color:#333;
 			text-decoration:none;
@@ -66,9 +58,8 @@
 			min-height:0;
 			transition:all 500ms linear;
 		}
-		&.editing {
-			background: #f9f9f9;
-			border-left: 5px solid #e5575c;
+		&:only-child {
+			border-bottom:0;
 		}
 		&.open {
 			height:auto;
