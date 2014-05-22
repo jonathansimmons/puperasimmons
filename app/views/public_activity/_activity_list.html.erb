@@ -1,4 +1,4 @@
-<% if @activities %>
+<% if @activities.present? %>
 	<script>
 	$(document).ready(function(){
 			$("#activities_list").ioslist();
@@ -6,14 +6,16 @@
 	</script>
 <% end %>
 <h3>Latest Activity</h3>
-<%= link_to "Mark All Read", read_all_activities_path(current_user), remote: true, class: "mark-read btn btn-xs btn-default"  %>
-	<div id="activities_list">
-	<% @activity_groups.sort.reverse.each do |day, activities| %>
-		<div class="ioslist-group-container">
-		    <div class="ioslist-group-header"><%= day.strftime('%m.%d.%Y') %></div>
-		    <ul class="activities">
-		      <%= render_activities(activities.reverse, unread_activities: @unread_activities)  %>
-		    </ul>
-		</div>
+	<% if @unread_activities.present? %>
+		<%= link_to "Mark All Read", read_all_activities_path(current_user), remote: true, class: "mark-read btn btn-xs btn-default"  %>
 	<% end %>
+		<div id="activities_list">
+		<% @activity_groups.sort.reverse.each do |day, activities| %>
+			<div class="ioslist-group-container">
+			    <div class="ioslist-group-header"><%= day.strftime('%m.%d.%Y') %></div>
+			    <ul class="activities">
+			      <%= render_activities(activities.reverse, unread_activities: @unread_activities)  %>
+			    </ul>
+			</div>
+		<% end %>
 </div>

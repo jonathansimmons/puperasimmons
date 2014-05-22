@@ -10,10 +10,12 @@ class CommentsController < ApplicationController
     if @contact.present?
     	@comment = @contact.comments.create(comment: params[:comment][:comment], user_id: current_user.id)
       @contact.create_activity key: 'contact.comment_on', owner: current_user
-      PublicActivity::Activity.create trackable: @contact, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token
+      @activity = PublicActivity::Activity.create trackable: @contact, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token
+      @activity.mark_as_read! :for => current_user
     elsif @task.present?
       @comment = @task.comments.create(comment: params[:comment][:comment], user_id: current_user.id)
-      PublicActivity::Activity.create trackable: @task, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token
+      @activity = PublicActivity::Activity.create(trackable: @task, key: 'task.comment_on', owner: current_user, uid: Activity.new().generate_token)
+      @activity.mark_as_read! :for => current_user
     end
   end
 

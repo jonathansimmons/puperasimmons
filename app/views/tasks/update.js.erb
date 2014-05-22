@@ -8,3 +8,10 @@ $('li[data-task-id="<%= @task.uid %>"]').replaceWith('<%= j render @task %>');
 <% else %>
 	$('li[data-task-id="<%= @task.uid %>"]').removeClass('completed');
 <% end %>
+
+console.log('<%= @remove_these.inspect %>')
+<% if @remove_these.present? %>
+	<% @remove_these.each do |activity| %>
+			$('li[data-activity-id="<%= activity.uid %>"]').remove();
+	<% end %>
+<% end %>

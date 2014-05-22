@@ -1,4 +1,4 @@
-<li class="<%= activity.id.in?(@unread_activities.collect{|a| a.id}) ? 'activity unread' : 'activity' %>">
+<li class="<%= activity.id.in?(@unread_activities.collect{|a| a.id}) ? 'activity unread' : 'activity' %>" data-activity-id="<%= activity.uid %>">
 	<%= link_to read_activity_path(activity.uid) do %>
 	  <%= render "public_activity/time", activity: activity %>
 	  <div class="content">

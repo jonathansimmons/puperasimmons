@@ -3,9 +3,9 @@
 	  <%= render "public_activity/time", activity: activity %>
 	  <div class="content">
 	    <% if activity.trackable %>
-	      <%= activity.owner.name %> updated <span class="highlight"> <%= activity.trackable.name.possessive %> </span> contact <%= activity.parameters[:changes].collect{|c| c.first.gsub("_", " ") unless c.in?([:updated_at])}.to_sentence if activity.parameters[:changes] %>.
+	      <%= activity.owner.name %> completed the task: <span class="highlight"><%= truncate(activity.trackable.content, length:50) %></span>.
 	    <% else %>
-	      <%= activity.owner.name %> updated a contact which has since been removed.
+	      <%= activity.owner.name %> commented on a task which has since been removed.
 	    <% end %>
 	  </div>
 	 <% end %>

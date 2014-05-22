@@ -24,7 +24,6 @@ class UsersController < ApplicationController
 
   def read_activity
 		@activity.mark_as_read! :for => current_user
-		logger.debug @activity.trackable.class.name
 		if @activity.trackable
 			case @activity.trackable.class.name
 			when "Contact"

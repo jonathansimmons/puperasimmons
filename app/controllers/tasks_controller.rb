@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :view_comments, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :update, :view_comments, :destroy]
 
   # GET /tasks
   # GET /tasks.json
@@ -22,25 +22,20 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
-  # GET /tasks/1/edit
-  def edit
-  end
-
   # POST /tasks
   # POST /tasks.json
   def create
     @task = Task.new(task_params)
     @comment = Comment.new
 
+    if @task.save
+      @activity = PublicActivity::Activity.create trackable: @task, key: 'task.created', owner: current_user, parameters: { url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token
+      Activity.find(@activity.id).mark_as_read! :for => current_user
+    end
+
     respond_to do |format|
-      if @task.save
-        PublicActivity::Activity.create trackable: @task, key: 'task.created', owner: current_user, parameters: { url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token
-        format.html { redirect_to params[:return_url] }
-        format.js
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to params[:return_url] || root_path }
+      format.js
     end
   end
 
@@ -49,19 +44,33 @@ class TasksController < ApplicationController
   def update
     @comment = Comment.new
 
-    respond_to do |format|
-      if @task.update(task_params)
-        if params[:quick_complete]
-          PublicActivity::Activity.create trackable: @task, key: 'task.updated', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token if @task.completed
+    if @task.update(task_params)
+      if params[:quick_complete]
+        if @task.completed?
+          @activity = PublicActivity::Activity.create trackable: @task, key: 'task.completed', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token if @task.completed
+          Activity.find(@activity.id).mark_as_read! :for => current_user
         else
-          PublicActivity::Activity.create trackable: @task, key: 'task.updated', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token
+          @activities = Activity.where(trackable_type: "Task", trackable_id: @task.id, key: "task.completed")
+          @remove_these = @activities.dup
+          puts @remove_these.inspect
+          @activities.delete_all
+          puts @remove_these.inspect
         end
-        format.html { redirect_to params[:return_url] }
-        format.js
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        if @task.completed?
+          @activity = PublicActivity::Activity.create trackable: @task, key: 'task.completed', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token if @task.completed
+          Activity.find(@activity.id).mark_as_read! :for => current_user
+        else
+          PublicActivity::Activity.where(trackable_type: "Task", trackable_id: @task.id, key: "task.completed").destroy
+          @activity = PublicActivity::Activity.create trackable: @task, key: 'task.updated', owner: current_user, parameters: {changes: @task.versions.last.changeset, url: @task.contact.present? ? contact_path(@task.contact) : root_url }, uid: Activity.new().generate_token
+          Activity.find(@activity.id).mark_as_read! :for => current_user
+        end
       end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to params[:return_url] || root_path }
+      format.js
     end
   end
 

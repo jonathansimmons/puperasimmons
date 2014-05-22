@@ -2,7 +2,7 @@
 	<%= form_for task, html: {class: "complete-form" }, remote: true do |f| %>
 		<%= f.label :completed, class: "control checkbox", for: nil do %>
 			<%= f.check_box :completed %>
-			<%= hidden_field_tag :quick_complete, value: true%>
+			<%= hidden_field_tag :quick_complete, true%>
 			<span class="control-indicator"></span>
     <% end %>
   <% end %>
