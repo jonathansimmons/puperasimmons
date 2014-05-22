@@ -1,11 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.assets.paths << "#{Rails.root}/vendor/assets/*"
-  config.assets.paths << "#{Rails.root}/vendor/assets/fonts"
-  config.assets.paths << "#{Rails.root}/vendor/assets/stylesheets"
-  config.assets.paths << "#{Rails.root}/vendor/assets/javascript"
-
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -64,8 +59,7 @@ Rails.application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-    config.assets.precompile += %w(.svg .eot .woff .ttf)
-
+  config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
