@@ -47,21 +47,27 @@
           <% end %>
         </div>
       </div>
-      <div class="bucket-subheader">
-        <div class="bucket-actions">
-          <%= form_tag contact_path(@contact), method: :get do |f| %>
-          <div class="field">
-            <%= label_tag :assigned_to,  class: "select" do %>
-              <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
-            <% end %>
+      <% if @contact.tasks.present? %>
+        <div class="bucket-subheader">
+          <div class="bucket-actions">
+            <%= form_tag contact_path(@contact), method: :get do |f| %>
+            <div class="field">
+              <%= label_tag :assigned_to,  class: "select" do %>
+                <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
+              <% end %>
+            </div>
+          <% end %>
           </div>
-        <% end %>
         </div>
-      </div>
+      <% end %>
       <div class="bucket-body">
-        <div id="tasks">
-          <%= render "tasks/tasks", tasks: @contact.tasks %>
-        </div>
+        <% if @contact.tasks.present? %>
+          <div id="tasks">
+            <%= render "tasks/tasks", tasks: @contact.tasks %>
+          </div>
+        <% else %>
+          <p style="padding:15px 0 0;text-align:center;">There are currently no pending tasks.</p>
+        <% end %>
       </div>
     </div>
   </div>

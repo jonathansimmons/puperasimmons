@@ -12,11 +12,15 @@
 				</div>
 			</div>
 			<div class="bucket-body">
-				<ul id="contacts">
-					<% @contacts.each do |contact| %>
-						<%= render "contacts/dashboard_contact", contact: contact %>
-					<% end %>
-				</ul>
+				<% if @contacts.present? %>
+					<ul id="contacts">
+						<% @contacts.each do |contact| %>
+							<%= render "contacts/dashboard_contact", contact: contact %>
+						<% end %>
+					</ul>
+				<% else %>
+					<p style="padding:15px 0 0;text-align:center;">There are currently no active clients.</p>
+				<% end %>
 			</div>
 		</div>
 	</div>
@@ -30,26 +34,32 @@
           <% end %>
 				</div>
 			</div>
-			<div class="bucket-subheader">
-				<div class="bucket-actions">
-				  <%= form_tag root_url, method: :get do |f| %>
-				  <div class="field">
-				    <%= label_tag :sort_by,  class: "select" do %>
-				      <%= select_tag :sort_by, options_for_select([["Client", "client"], ["Due Date", "due_date"]], params[:sort_by].present? ? params[:sort_by] : nil), prompt: "Sort By" %>
-				    <% end %>
-				  </div>
-				  <div class="field">
-				    <%= label_tag :assigned_to,  class: "select" do %>
-				      <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
-				    <% end %>
-				  </div>
-				<% end %>
+			<% if @tasks.present? %>
+				<div class="bucket-subheader">
+					<div class="bucket-actions">
+					  <%= form_tag root_url, method: :get do |f| %>
+					  <div class="field">
+					    <%= label_tag :sort_by,  class: "select" do %>
+					      <%= select_tag :sort_by, options_for_select([["Client", "client"], ["Due Date", "due_date"]], params[:sort_by].present? ? params[:sort_by] : nil), prompt: "Sort By" %>
+					    <% end %>
+					  </div>
+					  <div class="field">
+					    <%= label_tag :assigned_to,  class: "select" do %>
+					      <%= select_tag :assigned_to, options_from_collection_for_select(User.all, :name, :name, selected: params[:assigned_to].present? ? params[:assigned_to] : nil), prompt: "Assigned To" %>
+					    <% end %>
+					  </div>
+					<% end %>
+					</div>
 				</div>
-			</div>
+			<% end %>
 			<div class="bucket-body">
-				<div id="tasks">
-					<%= render "tasks/tasks", tasks: @tasks %>
-				</div>
+				<% if @tasks.present? %>
+					<div id="tasks">
+						<%= render "tasks/tasks", tasks: @tasks %>
+					</div>
+				<% else %>
+					<p style="padding:15px 0 0;text-align:center;">There are currently no pending tasks.</p>
+				<% end %>
 			</div>
 		</div>
 	</div>
