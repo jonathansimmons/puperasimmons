@@ -1,3 +1,10 @@
+<% if @activities %>
+	<script>
+	$(document).ready(function(){
+			$("#activities_list").ioslist();
+	});
+	</script>
+<% end %>
 <h3>Latest Activity</h3>
 <%= link_to "Mark All Read", read_all_activities_path(current_user), remote: true, class: "mark-read btn btn-xs btn-default"  %>
 	<div id="activities_list">

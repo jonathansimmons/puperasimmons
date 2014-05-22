@@ -22,9 +22,6 @@ $(document).ready(function(){
 
 	$('.tooltip-it').tooltip();
 
-	$("#activities_list").ioslist();
-
-
 	$(document).on('change', '.complete-form .checkbox input', function(){
 		$(this).closest('form').submit();
 	});
