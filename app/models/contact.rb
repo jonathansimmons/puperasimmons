@@ -7,7 +7,7 @@ class Contact < ActiveRecord::Base
 	enum contact_type: [ :agent, :client, :lender, :vendor ]
 	enum transaction_type: [ :sale, :purchase, :lease, :sale_and_purchase, :sale_and_lease ]
 
-	has_many :tasks
+	has_many :tasks, dependent: :destroy
 
 
 	def loop_url

@@ -208,4 +208,18 @@
 		font-size: 16px;
 		font-weight: normal;
 	}
+	.row-bottom {
+		margin-top:15px;
+		a {
+			text-decoration: none;
+			&:hover {
+				.glyphicon {
+					color:#e5575c;
+				}
+			}
+			.glyphicon {
+				color:#999;
+			}
+		}
+	}
 }

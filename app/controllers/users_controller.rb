@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   	if params[:sort_by] == "due_date"
 	  	@task_groups = @tasks.group_by{ |t| t.due_date.present? ? t.due_date.strftime("%m.%d.%y") : "Unassigned" }
   	else
-  		@task_groups = @tasks.group_by{ |t| t.contact_id.present? ? t.contact.name : "Unassigned" }
+  		@task_groups = @tasks.group_by{ |t| t.contact.present? ? t.contact.name : "Unassigned" }
   	end
   end
 

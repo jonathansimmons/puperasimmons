@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-formhelpers.js
+//= require twitter/bootstrap/rails/confirm
 //= require jquery.ioslist.min.js
 //= require_tree .
 
