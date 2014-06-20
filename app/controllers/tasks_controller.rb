@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :view_comments, :destroy]
+  before_action :set_contact, only: [:new]
 
   # GET /tasks
   # GET /tasks.json
@@ -90,6 +91,10 @@ class TasksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_task
       @task = Task.find_by(uid: params[:id])
+    end
+
+    def set_contact
+      @contact = Contact.find_by(uid: params[:contact_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

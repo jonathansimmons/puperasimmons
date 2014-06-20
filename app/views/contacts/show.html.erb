@@ -42,7 +42,7 @@
       <div class="bucket-header">
         <h3>Tasks</h3>
         <div class="bucket-actions">
-          <%= link_to new_task_path(), remote: true do %>
+          <%= link_to new_task_path(contact_id: @contact.uid), remote: true do %>
             <span class="glyphicon glyphicon-plus"></span>
           <% end %>
         </div>

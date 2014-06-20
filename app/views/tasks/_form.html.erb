@@ -53,10 +53,10 @@
      });
     </script>
   </div>
-  <div class="field">
+  <div class="<%= @contact.present? ? "hide field" : "field" %>">
     <%= f.label :contact_id, class: "select" do %>
       <span class="name">Contact</span>
-      <%= f.select :contact_id, options_from_collection_for_select(Contact.all.order(:name), :id, :name, @task.contact_id), class: 'select', include_blank: true %>
+      <%= f.select :contact_id, options_from_collection_for_select(Contact.all.order(:name), :id, :name, @task.contact_id || @contact.present? ? @contact.id : nil), class: 'select', include_blank: true %>
     <% end %>
   </div>
   <div class="field">
