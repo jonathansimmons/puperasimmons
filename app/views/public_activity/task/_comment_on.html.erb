@@ -3,7 +3,7 @@
 		<%= link_to read_activity_path(activity.uid) do %>
 		  <%= render "public_activity/time", activity: activity %>
 		  <div class="content">
-	      <%= activity.owner.name %> commented on <span class="highlight"><%= activity.trackable.content %></span>.
+	      <%= activity.owner.name %> commented on <span class="highlight"><%= activity.trackable.name %></span>.
 		  </div>
 		 <% end %>
 	<% else %>

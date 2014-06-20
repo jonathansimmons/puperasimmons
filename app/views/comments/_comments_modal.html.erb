@@ -6,11 +6,16 @@
         <h4 class="modal-title"><%= @contact.present? ? @contact.name : truncate(@task.content, length: 30) %> - Comment Thread</h4>
       </div>
       <div id="comments" class="modal-body">
-        <ul>
-          <% @comments.each do |comment| %>
-            <%= render comment %>
-          <% end %>
-        </ul>
+        <% if !@comments.present? %>
+          <p style="padding:15px 0 0;text-align:center;"> No comments yet.</p>
+          <ul></ul>
+        <% else %>
+          <ul>
+            <% @comments.each do |comment| %>
+              <%= render comment %>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
       <div class="modal-footer">
         <%= form_for @comment, remote: true do |f| %>
@@ -21,14 +26,8 @@
           <% if @task.present? %>
             <%= f.hidden_field :task_id, value: @task.uid %>
           <% end %>
-          <div class="row">
-            <div class="col-md-6">
-              <button type="button" class="btn btn-default btn-sm btn-block" data-dismiss="modal">Close</button>
-            </div>
-            <div class="col-md-6">
-              <%= f.submit "Comment", class: "btn btn-default-inverted btn-block btn-sm" %>
-            </div>
-          </div>
+              <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+              <%= f.submit "Comment", class: "btn btn-default-inverted btn-sm" %>
         <% end %>
       </div>
     </div>

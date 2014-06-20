@@ -4,3 +4,9 @@ $('.modal').modal({
   show: true,
   backdrop:true
 })
+
+	if ($("#comments ul").length > 0) {
+		setTimeout(function(){
+			$('#comments ul').scrollTop($('#comments ul').prop('scrollHeight'));
+		},300)
+	}

@@ -31,9 +31,9 @@ $(document).ready(function(){
 		$(this).closest('form').submit();
 	});
 
-	if ($(".comment-scroll").length > 0) {
+	if ($("#comments ul").length > 0) {
 		setTimeout(function(){
-			$('.comment-scroll').scrollTop($('.commentbas-scroll').prop('scrollHeight'));
+			$('#comments ul').scrollTop($('#comments ul').prop('scrollHeight'));
 		},300)
 	}
 

@@ -5,8 +5,7 @@ $("#comments ul").removeClass('editing');
 	$("#comments").html('<%= j render @comment.commentable.comments  %>')
 <% when "Contact" %>
 	$("li[data-contact-id='<%= @comment.commentable.uid %>']").replaceWith('<%= j render @comment.commentable %>')
-	$("#comments").html('<%= j render @comment.commentable.comments  %>')
+	$("#comments ul").html('<%= j render @comment.commentable.comments  %>')
+	$("#comment_comment").val("");
 <% end %>
 
-$('.modal').modal('hide');
-$(body).focus()
