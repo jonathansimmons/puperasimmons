@@ -1,4 +1,4 @@
-<li class="task <%= task.completed ? 'completed' : nil %>" data-task-id="<%= task.uid %>">
+<li class="task <%= task.due_date.present? && task.due_date < Date.today ? "overdue" : nil %> <%= task.completed ? 'completed' : nil %>" data-task-id="<%= task.uid %>">
 	<%= form_for task, html: {class: "complete-form" }, remote: true do |f| %>
 		<%= f.label :completed, class: "control checkbox", for: nil do %>
 			<%= f.check_box :completed %>
@@ -6,7 +6,12 @@
 			<span class="control-indicator"></span>
     <% end %>
   <% end %>
-	<span class="content"><%= simple_format(task.content) %></span>
+	<span class="content"> 
+    <% if task.due_date.present? && task.due_date < Date.today && params[:sort_by] != "due_date" && params[:sort_by].present? %>
+      <span class="glyphicon glyphicon-exclamation-sign tooltip-it" data-title="Due on: <%= task.due_date.strftime("%m/%d/%y") %>" data-placement="right" data-toggle="tooltip"></span>
+    <% end %>
+    <%= simple_format(task.content) %>
+  </span>
 	<span class="meta"><%= link_to view_comments_task_path(task), class: "", remote: true do %>  <%= task.comments.count %> &nbsp; <span class="glyphicon glyphicon-comment"> </span> <% end %> &nbsp; <%= link_to edit_task_path(task), remote: true do %> <span class="glyphicon glyphicon-pencil"></span> <% end %> &nbsp; <%= link_to task_path(task),method: :delete, remote: true do  %> <span class="glyphicon glyphicon-trash"></span> <% end %></span>
 	<div id="comments" class="hide">
 		<hr>

@@ -6,6 +6,10 @@ class Task < ActiveRecord::Base
 	belongs_to :contact
 	acts_as_commentable
 
+	scope :overdue, -> { where("due_date < ?", Date.today)}
+	scope :current, -> { where("due_date >= ?", Date.today)}
+	scope :not_due, -> { where(due_date: nil)}
+
 
 	def to_param
 		uid

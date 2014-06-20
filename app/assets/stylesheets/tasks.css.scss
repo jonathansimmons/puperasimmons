@@ -7,7 +7,6 @@
 	.task-contact {
 		background: #ccc;
 		color: #FFF;
-		margin: 0 0 15px;
 		padding: 3px 0 3px 10px;
 		position: absolute;
 		font-size: inherit;
@@ -18,16 +17,22 @@
 			color:#fff;
 			text-decoration: none;
 		}
+		&.overdue {
+			background:#e5575c;
+		}
+		&.today {
+			background:#5bc0de;
+		}
 	}
 	ul {
 		padding:0;
+		margin:0;
 		.task {
-			list-style:none;
-			position:relative;
-			min-height:30px;
-			border-bottom:1px solid #eee;
-			margin-bottom:10px;
-			padding:0 10px;
+			list-style: none;
+			position: relative;
+			border-bottom: 1px solid #eee;
+			padding: 10px 10px 1px;
+			min-height: 30px;
 			&:last-child {
 				border-bottom:0;
 			}
@@ -35,6 +40,10 @@
 				display: block;
 				width: 80%;
 				margin-left: 25px;
+				.glyphicon {
+					float: left;
+					margin: 2px 5px 0 -2px;
+				}
 			}
 			.complete-form {
 				width: 0;

@@ -12,13 +12,15 @@ class UsersController < ApplicationController
   	if params[:assigned_to].present?
   		@tasks = User.find_by(name: params[:assigned_to]).tasks
   	else
-	  	@tasks = Task.all
+	  	@tasks = Task.current + Task.not_due
+      @tasks = Task.all if params[:sort_by] == "client"
 	  end
 
-  	if params[:sort_by] == "due_date"
-	  	@task_groups = @tasks.group_by{ |t| t.due_date.present? ? t.due_date.strftime("%m.%d.%y") : "Unassigned" }
+  	if params[:sort_by] == "client"
+      @task_groups = @tasks.order('due_date').group_by{ |t| t.contact.present? ? t.contact.name : "Unassigned" }
   	else
-  		@task_groups = @tasks.group_by{ |t| t.contact.present? ? t.contact.name : "Unassigned" }
+      @task_groups = @tasks.uniq.group_by{ |t| t.due_date.present? ? t.due_date.strftime("%m/%d/%y") : "Unassigned" }
+
   	end
   end
 

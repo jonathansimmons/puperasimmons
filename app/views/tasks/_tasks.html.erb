@@ -1,13 +1,8 @@
-<% if params[:sort_by] == "due_date" %>
-  <% @task_groups.sort.reverse.each do |contact, tasks| %>
+<% if params[:sort_by] == "client" %>
+  <% @task_groups.sort.each do |contact, tasks| %>
     <% if contact.present? %>
-      <% if params[:sort_by] == "due_date" %>
-          <span class="task-contact">
-            <%= contact %>
-          </span>
-      <% else %>
-        <span class="task-contact"><%= contact %></span>
-      <% end %>
+      <%= User.find_by(name: contact) %>
+        <span class="task-contact"><%= link_to contact, Contact.find_by(name: contact) %></span>
     <% end %>
     <ul>
       <% tasks.each do |task| %>
@@ -16,10 +11,25 @@
     </ul>
   <% end %>
 <% else %>
-    <% @task_groups.sort.each do |contact, tasks| %>
+   <% if Task.overdue.any? %>
+    <span class="task-contact overdue">Overdue</span>
+    <ul>
+      <% Task.overdue.each do |task| %>
+        <%= render task %>
+      <% end %>
+    </ul>
+  <% end %>
+  <% @task_groups.sort.each do |contact, tasks| %>
     <% if contact.present? %>
-      <%= User.find_by(name: contact) %>
-        <span class="task-contact"><%= link_to contact, Contact.find_by(name: contact) %></span>
+      <% if params[:sort_by] != "client" %>
+        <% if contact == Date.today.strftime("%m/%d/%y").to_s %>
+           <span class="task-contact today">Today</span>
+        <% else %>
+           <span class="task-contact"><%= contact %></span>
+        <% end %>
+      <% else %>
+        <span class="task-contact"><%= contact %></span>
+      <% end %>
     <% end %>
     <ul>
       <% tasks.each do |task| %>
