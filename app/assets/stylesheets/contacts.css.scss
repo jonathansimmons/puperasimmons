@@ -104,6 +104,12 @@
 		border-bottom: 1px solid #e5575c;
 		width: 100%;
 	}
+	input[name="task[due_date]"] {
+		&:active, &:focus {
+			-wbekit-box-shadow: none;
+			box-shadow: none;
+		}
+	}
 	input[type="text"] {
 		border:0;
 		background: #fff;
